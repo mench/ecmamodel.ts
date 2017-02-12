@@ -1,0 +1,19 @@
+{
+  "name": "ecmamodel.ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Armen Harutyunyan <mench.harutyunyan@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/core-js": "^0.9.35",
+    "@types/isomorphic-fetch": "0.0.32",
+    "@types/node": "^7.0.5",
+    "gulp": "~3.8.9",
+    "gulp-browserify": "~0.5.0"
+  }
+}
