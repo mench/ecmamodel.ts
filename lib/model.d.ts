@@ -9,11 +9,11 @@ export declare class Model extends Emitter {
     static readonly schema: Schema;
     static readonly index: any;
     readonly schema: Schema;
-    readonly isNew: Boolean;
+    readonly isNew: boolean;
     readonly index: any;
     readonly uuid: any;
     readonly url: void;
-    get(key: any): any;
+    get(key: any): this;
     set(key: any, value?: any, silent?: any): this;
     getId(): any;
     private commit(fire);

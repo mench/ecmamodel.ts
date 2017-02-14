@@ -3,6 +3,12 @@ TypeScript Model and Collection with validation,error handling and sync them wit
 
 ecmamodel.ts is a open source package for the node.js and browser.
 
+## Installation
+
+```sh
+$ npm install --save ecmamodel.ts
+```
+
 ## Requirements
 
 ecmamodel.ts requires a Javascript environment with TypeScript classes and  decorators. 

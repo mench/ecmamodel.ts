@@ -36,7 +36,7 @@ export class Model extends Emitter {
     public get schema():Schema{
         return this[SCHEMA];
     }
-    public get isNew():Boolean{
+    public get isNew():boolean{
         return !this[this.index];
     }
     public get index(){
@@ -51,7 +51,7 @@ export class Model extends Emitter {
     public get url(){
         throw new Error('method not overridden');
     }
-    public get(key){
+    public get(key):this{
         if(this[Model.PRIVATE]){
             return this[Model.PRIVATE][key];
         }
@@ -68,17 +68,17 @@ export class Model extends Emitter {
             }
             this.commit(value);
         }else{
-            var field = this.schema.field(key);
+            let field = this.schema.field(key);
             value = field.apply(this,key,value);
             if( field.errors.length ){
                 return this;
             }
-            var p = this[Model.PRIVATE];
+            let p = this[Model.PRIVATE];
             if(!p){
                 p = this[Model.PRIVATE] = Object.create(null);
             }
             if(p[key] !== value){
-                var c = this[Model.CHANGES];
+                let c = this[Model.CHANGES];
                 if(!c){
                     c = this[Model.CHANGES] = Object.create(null);
                 }
