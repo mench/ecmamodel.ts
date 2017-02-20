@@ -1,6 +1,6 @@
 {
   "name": "ecmamodel.ts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "TypeScript Model and Collection with validation,error handling and sync them with your existing API over a RESTful JSON interface.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,9 +10,6 @@
   "author": "Armen Harutyunyan <mench.harutyunyan@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/core-js": "^0.9.35",
-    "@types/isomorphic-fetch": "0.0.32",
-    "@types/node": "^7.0.5",
     "gulp": "~3.8.9",
     "gulp-browserify": "~0.5.0"
   },
@@ -45,7 +42,11 @@
     "field",
     "fields"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "@types/core-js": "^0.9.35",
+    "@types/isomorphic-fetch": "0.0.32",
+    "@types/node": "^7.0.5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mench/ecmamodel.ts.git"
