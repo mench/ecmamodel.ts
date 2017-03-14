@@ -60,7 +60,7 @@ export class Filed {
         let CURRENT = Symbol.for(this.constructor.name),
             PARENT  = Symbol.for(Filed.name),
             current = this.constructor[CURRENT] || [],
-            parent  = this.constructor[PARENT]  || [];
+            parent  = Filed[PARENT]  || [];
         return parent.concat(current);
     }
     protected setter(fn:Function){
