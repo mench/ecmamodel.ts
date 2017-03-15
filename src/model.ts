@@ -138,8 +138,7 @@ export class Model extends Emitter {
         this.once('destroy',this.onDestroy);
     }
     public toJSON(){
-        let constructor:any = this.constructor;
-        let fields = constructor.schema.props;
+        let fields = this.schema.props;
         if(fields && fields.length){
             let map = Object.create(null);
             fields.forEach(f=>{
