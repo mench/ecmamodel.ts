@@ -22,6 +22,12 @@ export class Filed {
         }
     }
     @Option
+    public set get(v:Function){
+        if(Types.isFunction(v)){
+            this.getter = v;
+        }
+    }
+    @Option
     public set validators(v:Array<Function>){
         if(Types.isArray(v)){
             v.map(o=>{
@@ -36,6 +42,7 @@ export class Filed {
     protected verifiers:Array<Validator>;
     public customValidators:Array<Function>;
     public errors:Array<ValidationError>;
+    protected getter:Function;
 
     constructor(options){
         this.setters = [];

@@ -53,7 +53,12 @@ export class Model extends Emitter {
     }
     public get(key):this{
         if(this[Model.PRIVATE]){
-            return this[Model.PRIVATE][key];
+            let value = this[Model.PRIVATE][key];
+            let field = this.schema.field(key);
+            if( Types.isFunction(field.getter) ){
+                return field.getter.call(this,value);
+            }
+            return value;
         }
         return null;
     }

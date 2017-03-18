@@ -6,11 +6,13 @@ export declare class Filed {
     default: any;
     required: Boolean;
     set: Function;
+    get: Function;
     validators: Array<Function>;
     protected setters: Array<Function>;
     protected verifiers: Array<Validator>;
     customValidators: Array<Function>;
     errors: Array<ValidationError>;
+    protected getter: Function;
     constructor(options: any);
     readonly options: any;
     protected setter(fn: Function): void;
