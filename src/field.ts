@@ -2,9 +2,8 @@ import {Model} from './model';
 import {Schema} from './schema';
 import {Types} from './utils/types';
 
-export const SCHEMA:string      = '__SCHEMA__';
-export const INDEX:string       = '__index__';
-export const __SCHEMA__:symbol  = Symbol('SCHEMA');
+export const SCHEMA:symbol      = Symbol('SCHEMA');
+export const INDEX:symbol       = Symbol('index');
 
 export function Field(target:any,key?):any{
     var options = Array.prototype.splice.call(arguments,0);
@@ -13,9 +12,10 @@ export function Field(target:any,key?):any{
         let isModelClass = (typeof Model == 'undefined' && Types.isFunction(target.constructor));
         if( isModelClass || target instanceof Model){
             var schema = target.constructor[SCHEMA];
-
             if(!schema){
-                schema = target.constructor[SCHEMA] = new Schema();
+                let ParentClass = target.constructor.prototype.__proto__.constructor;
+                let parentSchema = ParentClass[SCHEMA] || new Schema();
+                schema = target.constructor[SCHEMA] = new Schema(parentSchema.fields);
             }
             schema.set(key,...options);
 

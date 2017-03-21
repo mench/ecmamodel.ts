@@ -33,8 +33,8 @@ export class Schema {
         }
     }
 
-    constructor(){
-        this.fields = new Map<string,any>();
+    constructor(parentFields?:Map<string,any>){
+        this.fields = new Map<string,any>(parentFields);
     }
     set(key:string,options:any){
         this.fields.set(

@@ -1,6 +1,6 @@
 import {Emitter} from './utils/emitter';
 import {Types}   from './utils/types';
-import {SCHEMA,__SCHEMA__}  from './field';
+import {SCHEMA}  from './field';
 import {Schema}  from './schema';
 import {SyncHttp,HttpOptions} from './sync/http';
 import {Cached} from './utils/cached';
@@ -26,15 +26,12 @@ export class Model extends Emitter {
     static PRIVATE:symbol = Symbol('private');
     static CHANGES:symbol = Symbol('changes');
 
-    static get schema():Schema{
-        return this[SCHEMA];
-    }
     static get index(){
         return this[INDEX];
     }
 
     public get schema():Schema{
-        return this[__SCHEMA__];
+        return this[SCHEMA];
     }
     public get isNew():boolean{
         return !this[this.index];
@@ -133,7 +130,7 @@ export class Model extends Emitter {
     }
     private register(){
         let constructor:any = this.constructor;
-        let schema = this[__SCHEMA__] = new Schema();
+        let schema = this[SCHEMA] = new Schema();
         let props = constructor[SCHEMA].fields;
         props.forEach((definition,key)=>{
             let field = Schema.createField(definition);

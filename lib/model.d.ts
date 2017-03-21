@@ -6,7 +6,6 @@ export declare class Model extends Emitter {
     id: String;
     static PRIVATE: symbol;
     static CHANGES: symbol;
-    static readonly schema: Schema;
     static readonly index: any;
     readonly schema: Schema;
     readonly isNew: boolean;
