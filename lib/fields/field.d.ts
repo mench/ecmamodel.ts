@@ -1,6 +1,7 @@
 import { Validator } from '../validators/validator';
 import { ValidationError } from "../errors/validation";
 export declare class Filed {
+    static OPTION: symbol;
     static uuid(): any;
     type: any;
     default: any;

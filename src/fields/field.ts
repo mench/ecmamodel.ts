@@ -5,6 +5,9 @@ import {Validator} from '../validators/validator';
 import {ValidationError} from "../errors/validation";
 
 export class Filed {
+
+    static OPTION = Symbol('OPTION');
+
     public static uuid(){
         return <any>Math.round(Math.random()*Number.MAX_SAFE_INTEGER).toString(36);
     }
@@ -64,10 +67,8 @@ export class Filed {
     }
     @Cached
     get options(){
-        let CURRENT = Symbol.for(this.constructor.name),
-            PARENT  = Symbol.for(Filed.name),
-            current = this.constructor[CURRENT] || [],
-            parent  = Filed[PARENT]  || [];
+        let current = this.constructor[Filed.OPTION] || [],
+            parent  = Filed[Filed.OPTION]  || [];
         return parent.concat(current);
     }
     protected setter(fn:Function){
@@ -123,7 +124,7 @@ export class Filed {
 
 }
 export function Option(target:any,key:string){
-    let OPTION = Symbol.for(target.constructor.name);
+    let OPTION = target.constructor.OPTION;
     let props = target.constructor[OPTION];
     if(!props){
         props = target.constructor[OPTION] = [];

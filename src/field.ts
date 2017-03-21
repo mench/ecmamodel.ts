@@ -2,8 +2,10 @@ import {Model} from './model';
 import {Schema} from './schema';
 import {Types} from './utils/types';
 
-export const SCHEMA:symbol = Symbol('schema');
-export const INDEX:symbol  = Symbol('index');
+export const SCHEMA:string      = '__SCHEMA__';
+export const INDEX:string       = '__index__';
+export const __SCHEMA__:symbol  = Symbol('SCHEMA');
+
 export function Field(target:any,key?):any{
     var options = Array.prototype.splice.call(arguments,0);
     function annotate(options,target,key){

@@ -1,6 +1,6 @@
 {
   "name": "ecmamodel.ts",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "TypeScript Model and Collection with validation,error handling and sync them with your existing API over a RESTful JSON interface.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

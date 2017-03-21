@@ -1,6 +1,6 @@
 import {Emitter} from './utils/emitter';
 import {Types}   from './utils/types';
-import {SCHEMA}  from './field';
+import {SCHEMA,__SCHEMA__}  from './field';
 import {Schema}  from './schema';
 import {SyncHttp,HttpOptions} from './sync/http';
 import {Cached} from './utils/cached';
@@ -34,7 +34,7 @@ export class Model extends Emitter {
     }
 
     public get schema():Schema{
-        return this[SCHEMA];
+        return this[__SCHEMA__];
     }
     public get isNew():boolean{
         return !this[this.index];
@@ -133,7 +133,7 @@ export class Model extends Emitter {
     }
     private register(){
         let constructor:any = this.constructor;
-        let schema = this[SCHEMA] = new Schema();
+        let schema = this[__SCHEMA__] = new Schema();
         let props = constructor[SCHEMA].fields;
         props.forEach((definition,key)=>{
             let field = Schema.createField(definition);
