@@ -1,4 +1,3 @@
-/// <reference types="core-js" />
 import { FiledBoolean } from './fields';
 export declare class Schema {
     fields: Map<string, any>;

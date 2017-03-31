@@ -5,17 +5,20 @@ import {Types} from './utils/types';
 export const SCHEMA:symbol      = Symbol('SCHEMA');
 export const INDEX:symbol       = Symbol('index');
 
+export const mappings = new WeakMap();
+
 export function Field(target:any,key?):any{
     var options = Array.prototype.splice.call(arguments,0);
     function annotate(options,target,key){
         //TODO check if used on Model class. For skipping cross reference issue
         let isModelClass = (typeof Model == 'undefined' && Types.isFunction(target.constructor));
         if( isModelClass || target instanceof Model){
-            var schema = target.constructor[SCHEMA];
+            let schema = mappings.get(target.constructor);
             if(!schema){
                 let ParentClass = target.constructor.prototype.__proto__.constructor;
-                let parentSchema = ParentClass[SCHEMA] || new Schema();
-                schema = target.constructor[SCHEMA] = new Schema(parentSchema.fields);
+                let parentSchema = mappings.get(ParentClass) || new Schema();
+                schema = new Schema(parentSchema.fields);
+                mappings.set(target.constructor,schema);
             }
             schema.set(key,...options);
 

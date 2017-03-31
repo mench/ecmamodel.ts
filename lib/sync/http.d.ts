@@ -1,4 +1,3 @@
-/// <reference types="core-js" />
 import { CRUD } from './crud';
 export interface HttpOptions {
     patch?: boolean;

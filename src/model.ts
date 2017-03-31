@@ -1,6 +1,7 @@
 import {Emitter} from './utils/emitter';
 import {Types}   from './utils/types';
 import {SCHEMA}  from './field';
+import {mappings}  from './field';
 import {Schema}  from './schema';
 import {SyncHttp,HttpOptions} from './sync/http';
 import {Cached} from './utils/cached';
@@ -21,7 +22,7 @@ export class Model extends Emitter {
 
     @Id
     @Field
-    id:String;
+    id:any;
 
     static PRIVATE:symbol = Symbol('private');
     static CHANGES:symbol = Symbol('changes');
@@ -45,7 +46,7 @@ export class Model extends Emitter {
             .field(this.index)
             .uuid();
     }
-    public get url(){
+    public get url():string{
         throw new Error('method not overridden');
     }
     public get(key):this{
@@ -129,9 +130,9 @@ export class Model extends Emitter {
         }
     }
     private register(){
-        let constructor:any = this.constructor;
         let schema = this[SCHEMA] = new Schema();
-        let props = constructor[SCHEMA].fields;
+        let mapper = mappings.get(this.constructor) || new Schema();
+        let props = mapper.fields;
         props.forEach((definition,key)=>{
             let field = Schema.createField(definition);
             schema.set(key,field);
@@ -152,7 +153,7 @@ export class Model extends Emitter {
             });
             return map;
         }else{
-            return void 0;
+            return Object.create(null);
         }
     }
     @Cached

@@ -1,9 +1,8 @@
-/// <reference types="core-js" />
 import { Emitter } from './utils/emitter';
 import { Schema } from './schema';
 import { SyncHttp, HttpOptions } from './sync/http';
 export declare class Model extends Emitter {
-    id: String;
+    id: any;
     static PRIVATE: symbol;
     static CHANGES: symbol;
     static readonly index: any;
@@ -11,7 +10,7 @@ export declare class Model extends Emitter {
     readonly isNew: boolean;
     readonly index: any;
     readonly uuid: any;
-    readonly url: void;
+    readonly url: string;
     get(key: any): this;
     set(key: any, value?: any, silent?: any): this;
     getId(): any;
@@ -24,8 +23,8 @@ export declare class Model extends Emitter {
     parse(res: any): void;
     save(options?: {
         validate: boolean;
-    }): Promise<this>;
-    fetch(options?: HttpOptions): Promise<this>;
+    }): Promise<any>;
+    fetch(options?: HttpOptions): Promise<any>;
     private onDestroy();
     destroy(): this | Promise<this>;
 }

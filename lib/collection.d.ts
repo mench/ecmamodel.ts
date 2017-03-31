@@ -1,4 +1,3 @@
-/// <reference types="core-js" />
 import { Model } from './model';
 import { Emitter } from './utils/emitter';
 import { SyncHttp, HttpOptions } from './sync/http';
@@ -28,7 +27,7 @@ export declare class Collection extends Emitter {
     sort(cb: any): Array<Model>;
     cleanup(cb: any): Array<Model>;
     reset(data?: Array<any>): this;
-    fetch(options?: HttpOptions): Promise<false | this>;
+    fetch(options?: HttpOptions): Promise<any>;
     parse(res: any): void;
     toObject(): any;
     toArray(): Array<Model>;
