@@ -97,6 +97,29 @@ export class Collection extends Emitter {
             return this.add(new this.type(data));
         }
     }
+    prepend(data){
+        if(!data) return;
+        let id = this.idOf(data);
+        if ( id ) {
+            let item:Model = this.get(data);
+            if (!item) {
+                if(!(data instanceof this.type)){
+                    item = this.indexes[id] = new this.type(data);
+                }else{
+                    item = this.indexes[id] = data;
+                }
+                this.array.unshift(item);
+                this.emit('create',item,this);
+                item.on('index',this.onItemIndex);
+                item.once('destroy',this.onItemDestroy);
+            } else {
+                item.set(data instanceof Model ? data.toJSON() : data);
+            }
+            return item;
+        } else {
+            return this.prepend(new this.type(data));
+        }
+    }
     remove(data):Model{
         if(!data) return null;
         let id = this.idOf(data);

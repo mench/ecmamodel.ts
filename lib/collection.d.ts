@@ -18,6 +18,7 @@ export declare class Collection extends Emitter {
     readonly sync: SyncHttp;
     clear(): void;
     add(data: any): Model;
+    prepend(data: any): any;
     remove(data: any): Model;
     idOf(data?: any): any;
     map(cb: any): Array<any>;
