@@ -6,11 +6,11 @@ import {Cached} from './utils/cached';
 import {Types} from './utils/types';
 import {SyncHttp,HttpOptions} from './sync/http';
 
-export class Collection extends Emitter {
-    private type:any | Model;
+export class Collection<T extends Model> extends Emitter {
+    private type:T|any;
     private indexes:Object;
-    private array:Array<Model>;
-    constructor(type:Model | any){
+    private array:Array<T>;
+    constructor(type:T | any){
         super();
         this.typify(type);
         this.indexes = Object.create(null);
@@ -50,7 +50,7 @@ export class Collection extends Emitter {
     get length(){
         return this.array.length
     }
-    get(id):Model{
+    get(id):T{
         if(typeof id == 'object'){
             return this.indexes[id[this.type.index]] || this.indexes[id.uuid]
         }
@@ -74,11 +74,11 @@ export class Collection extends Emitter {
         });
         this.emit('clear');
     }
-    add(data):Model{
+    add(data):T{
         if(!data) return;
         let id = this.idOf(data);
         if ( id ) {
-            let item:Model = this.get(data);
+            let item:T = this.get(data);
             if (!item) {
                 if(!(data instanceof this.type)){
                     item = this.indexes[id] = new this.type(data);
@@ -97,11 +97,11 @@ export class Collection extends Emitter {
             return this.add(new this.type(data));
         }
     }
-    prepend(data){
+    prepend(data):T{
         if(!data) return;
         let id = this.idOf(data);
         if ( id ) {
-            let item:Model = this.get(data);
+            let item:T = this.get(data);
             if (!item) {
                 if(!(data instanceof this.type)){
                     item = this.indexes[id] = new this.type(data);
@@ -165,7 +165,7 @@ export class Collection extends Emitter {
             .filter(k=>cb(this.indexes[k]))
             .map(k=>this.remove(this.indexes[k]));
     }
-    reset(data:Array<any> = []){
+    reset(data:Array<any> = []):this{
         Object.keys(this.indexes).forEach(k=>{
             this.onRemove(this.indexes[k]);
         });

@@ -1,11 +1,11 @@
 import { Model } from './model';
 import { Emitter } from './utils/emitter';
 import { SyncHttp, HttpOptions } from './sync/http';
-export declare class Collection extends Emitter {
+export declare class Collection<T extends Model> extends Emitter {
     private type;
     private indexes;
     private array;
-    constructor(type: Model | any);
+    constructor(type: T | any);
     onCreate(item: Model): void;
     onRemove(item: Model): void;
     onItemChange(item: any, old: any): void;
@@ -13,16 +13,16 @@ export declare class Collection extends Emitter {
     onItemDestroy(model: Model): void;
     readonly url: any | string;
     readonly length: number;
-    get(id: any): Model;
+    get(id: any): T;
     typify(type: any): void;
     readonly sync: SyncHttp;
     clear(): void;
-    add(data: any): Model;
-    prepend(data: any): any;
+    add(data: any): T;
+    prepend(data: any): T;
     remove(data: any): Model;
     idOf(data?: any): any;
     map(cb: any): Array<any>;
-    filter(cb: any): Model[];
+    filter(cb: any): T[];
     indexOf(data: any): Number;
     each(cb: any): void;
     sort(cb: any): Array<Model>;

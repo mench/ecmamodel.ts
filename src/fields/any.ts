@@ -9,7 +9,7 @@ export class FiledAny extends Filed {
             return new this.type(value);
         }
         if( Types.isArray(value) && this.type && this.type.prototype instanceof Collection ){
-            let collection:Collection = new this.type();
+            let collection:Collection<Model> = new this.type();
             return collection.reset(value);
         }
         return super.cast(key,value,model);
