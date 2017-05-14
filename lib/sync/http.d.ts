@@ -5,15 +5,16 @@ export interface HttpOptions {
     body?: any;
     url?: string | any;
     query?: any;
+    [key: string]: any;
 }
 export declare class SyncHttp extends CRUD {
     resolve(response: any): any;
     encode(): string;
     encodeUrl(query: any): string;
-    create(): Promise<any>;
-    update(): Promise<any>;
+    create(options?: HttpOptions): Promise<any>;
+    update(options?: HttpOptions): Promise<any>;
     read(options?: HttpOptions): Promise<any>;
-    delete(): Promise<any>;
+    delete(options?: HttpOptions): Promise<any>;
 }
 export declare const METHODS: {
     GET: string;

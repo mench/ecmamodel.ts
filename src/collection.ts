@@ -155,12 +155,12 @@ export class Collection extends Emitter {
         return this;
     }
     fetch(options:HttpOptions ={}){
-        return this.sync.read({
+        return this.sync.read(Objects.merge(options,{
             url:options.url || this.url,
             method:options.method,
             query:options.query || {},
             patch :options.patch
-        }).then(res=>{
+        })).then(res=>{
             if(Array.isArray(res)){
                 return this.reset(res);
             }

@@ -17,6 +17,7 @@ import {
 }  from './errors/validation';
 import {Collection} from './collection';
 import {Validator} from './validators';
+import {Objects} from "./utils/objects";
 
 export class Model extends Emitter {
 
@@ -229,15 +230,15 @@ export class Model extends Emitter {
     }
     public parse(res){}
 
-    public save(options={validate:true}){
+    public save(options={validate:true},httpOpt:HttpOptions={}){
         let sync = ()=>{
             let save = () =>{
                 if(this.isNew){
-                    return this.sync.create().then(res=>{
+                    return this.sync.create(httpOpt).then(res=>{
                         return this.set(res);
                     });
                 }
-                return this.sync.update().then(res=>{
+                return this.sync.update(httpOpt).then(res=>{
                     return this.set(res);
                 });
             };
@@ -256,12 +257,12 @@ export class Model extends Emitter {
     }
     public fetch(options:HttpOptions={}){
         let url = this.isNew ? this.url : `${this.url}/${this[this.index]}`;
-        return this.sync.read({
+        return this.sync.read(Objects.merge(options,{
             url:options.url || url,
             method:options.method,
             query:options.query || {},
             patch :options.patch
-        }).then(res=>{
+        })).then(res=>{
             return this.set(res);
         })
     }
@@ -276,12 +277,12 @@ export class Model extends Emitter {
             this.off(`change:${k}`);
         });
     }
-    public destroy():this | Promise<this>{
+    public destroy(options?:HttpOptions):this | Promise<this>{
         if(this.isNew){
             this.emit('destroy',this,null);
             return this;
         }
-        return this.sync.delete().then(res=>{
+        return this.sync.delete(options).then(res=>{
             this.emit('destroy',this,res);
             return res;
         });

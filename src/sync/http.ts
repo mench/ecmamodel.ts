@@ -1,5 +1,6 @@
 import {CRUD} from './crud';
 import {Bound} from '../utils/bound';
+import {Objects} from "../utils/objects";
 
 export interface HttpOptions {
     patch?:boolean;
@@ -7,6 +8,7 @@ export interface HttpOptions {
     body?:any;
     url?:string |any;
     query?:any;
+    [key: string]: any;
 }
 
 export class SyncHttp extends CRUD{
@@ -46,25 +48,25 @@ export class SyncHttp extends CRUD{
         }
         return "";
     }
-    create():Promise<any>{
-        return fetch(this.entity.url, {
+    create(options:HttpOptions = {}):Promise<any>{
+        return fetch(this.entity.url,Objects.merge(options, {
             method: "POST",
             body: this.encode(),
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then(this.resolve,(e)=>{
+        })).then(this.resolve,(e)=>{
             return Promise.reject(e);
         })
     }
-    update():Promise<any>{
-        return fetch(`${this.entity.url}/${this.entity[this.entity.index] ? this.entity[this.entity.index] : ''}`, {
+    update(options:HttpOptions = {}):Promise<any>{
+        return fetch(`${this.entity.url}/${this.entity[this.entity.index] ? this.entity[this.entity.index] : ''}`,Objects.merge(options, {
             method: "PUT",
             body: this.encode(),
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then(this.resolve,(e)=>{
+        })).then(this.resolve,(e)=>{
             return Promise.reject(e);
         })
     }
@@ -80,18 +82,18 @@ export class SyncHttp extends CRUD{
         }else{
             params.body = JSON.stringify(options.query || {});
         }
-        return fetch(url,params).then(this.resolve,(e)=>{
+        return fetch(url,Objects.merge(options,params)).then(this.resolve,(e)=>{
             return Promise.reject(e);
         })
     }
-    delete():Promise<any>{
-        return fetch(`${this.entity.url}/${this.entity[this.entity.index] ? this.entity[this.entity.index] : ''}`, {
+    delete(options:HttpOptions = {}):Promise<any>{
+        return fetch(`${this.entity.url}/${this.entity[this.entity.index] ? this.entity[this.entity.index] : ''}`,Objects.merge(options, {
             method: "DELETE",
             body: this.encode(),
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then(this.resolve,(e)=>{
+        })).then(this.resolve,(e)=>{
             return Promise.reject(e);
         })
     }
