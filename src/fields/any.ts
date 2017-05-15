@@ -5,10 +5,10 @@ import {Types} from '../utils/types';
 
 export class FiledAny extends Filed {
     public cast(key,value,model){
-        if( Types.isObject(value) && this.type && this.type.prototype instanceof Model ){
+        if( typeof value== 'object' && this.type && this.type.prototype instanceof Model ){
             return new this.type(value);
         }
-        if( Types.isArray(value) && this.type && this.type.prototype instanceof Collection ){
+        if( Array.isArray(value) && this.type && this.type.prototype instanceof Collection ){
             let collection:Collection<Model> = new this.type();
             return collection.reset(value);
         }

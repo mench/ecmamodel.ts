@@ -7,10 +7,10 @@ import {Types} from './utils/types';
 import {SyncHttp,HttpOptions} from './sync/http';
 
 export class Collection<T extends Model> extends Emitter {
-    private type:T|any;
-    private indexes:Object;
-    private array:Array<T>;
-    constructor(type:T | any){
+    protected type:{new(data?):T};
+    protected indexes:{[k:string]:T};
+    protected array:Array<T>;
+    constructor(type:{new(data?):T}){
         super();
         this.typify(type);
         this.indexes = Object.create(null);
@@ -19,11 +19,11 @@ export class Collection<T extends Model> extends Emitter {
         this.on('remove',this.onRemove);
     }
     @Bound
-    onCreate(item:Model){
+    onCreate(item:T){
         item.on('change',this.onItemChange);
     }
     @Bound
-    onRemove(item:Model){
+    onRemove(item:T){
         item.off('change',this.onItemChange);
         item.off('index',this.onItemIndex);
         item.off('destroy',this.onItemDestroy);
@@ -33,7 +33,7 @@ export class Collection<T extends Model> extends Emitter {
         this.emit('change',item,old);
     }
     @Bound
-    onItemIndex(model:Model){
+    onItemIndex(model:T){
         let index = model.getId();
         if(index){
             delete this.indexes[model.uuid];
@@ -41,7 +41,7 @@ export class Collection<T extends Model> extends Emitter {
         }
     }
     @Bound
-    onItemDestroy(model:Model){
+    onItemDestroy(model:T){
         this.remove(model);
     }
     get url():any |string{
@@ -52,7 +52,7 @@ export class Collection<T extends Model> extends Emitter {
     }
     get(id):T{
         if(typeof id == 'object'){
-            return this.indexes[id[this.type.index]] || this.indexes[id.uuid]
+            return this.indexes[id[(<Model><any>this.type).index]] || this.indexes[id.uuid]
         }
         return this.indexes[id] || this.array.find(e=>e.id==id);
     }
@@ -61,7 +61,7 @@ export class Collection<T extends Model> extends Emitter {
             this.type = type;
         }else{
             console.error(`${type} should be extended from Model class`);
-            this.type = Model;
+            this.type = <{new(data?):T}><any>Model;
         }
     }
     @Cached
@@ -120,7 +120,7 @@ export class Collection<T extends Model> extends Emitter {
             return this.prepend(new this.type(data));
         }
     }
-    remove(data):Model{
+    remove(data):T{
         if(!data) return null;
         let id = this.idOf(data);
         if ( id ){
@@ -143,7 +143,7 @@ export class Collection<T extends Model> extends Emitter {
         return null;
     }
     idOf(data:any={}){
-        return data[this.type.index] || data.uuid;
+        return data[(<Model><any>this.type).index] || data.uuid;
     }
     map(cb):Array<any>{
         return this.array.map(cb)
@@ -157,10 +157,10 @@ export class Collection<T extends Model> extends Emitter {
     each(cb):void{
         this.array.forEach(cb);
     }
-    sort(cb):Array<Model>{
+    sort(cb):Array<T>{
         return this.array.sort(cb);
     }
-    cleanup(cb):Array<Model>{
+    cleanup(cb):Array<T>{
         return Object.keys(this.indexes)
             .filter(k=>cb(this.indexes[k]))
             .map(k=>this.remove(this.indexes[k]));
@@ -194,10 +194,10 @@ export class Collection<T extends Model> extends Emitter {
     toObject(){
         return Objects.merge({},this.indexes);
     }
-    toArray():Array<Model>{
+    toArray():Array<T>{
         return this.array.slice()
     }
-    toJSON():Array<Model>{
+    toJSON():Array<T>{
         return this.array.slice().map((model:Model)=>{
             if(model instanceof Model){
                 return model.toJSON();
