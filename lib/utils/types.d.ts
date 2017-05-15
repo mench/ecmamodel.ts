@@ -2,6 +2,7 @@ export declare class Types {
     static isObject(value: any): boolean;
     static isNull(value: any): boolean;
     static isNaN(value: any): boolean;
+    static isNAN(value: any): boolean;
     static isUndefined(value: any): boolean;
     static isTypeOf(value: any, Constructor: any): boolean;
     static isArray(array: any): boolean;

@@ -7,7 +7,14 @@ export class Types {
         return value == null;
     }
     static isNaN(value:any){
-        return isNaN(value) && (value.constructor == Number || value.constructor == Date);
+        return this.isNAN(value) && (value.constructor == Number || value.constructor == Date);
+    }
+    static isNAN(value){
+        try {
+            return isNaN(value)
+        }catch (e){
+            return true;
+        }
     }
     static isUndefined(value:any){
         var undefined:any;

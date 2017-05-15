@@ -26,6 +26,9 @@ export class FiledString extends Filed{
     public set lowercase(v:Boolean){
         if(Types.toBoolean(v)){
             this.setter(function(key,value:String,target){
+                if( value == null ){
+                    return value;
+                }
                 return value.toLowerCase();
             })
         }
@@ -34,6 +37,9 @@ export class FiledString extends Filed{
     public set uppercase(v:Boolean){
         if(Types.toBoolean(v)){
             this.setter(function(key,value:String,target){
+                if( value == null ){
+                    return value;
+                }
                 return value.toUpperCase();
             })
         }
@@ -42,6 +48,9 @@ export class FiledString extends Filed{
     public set trim(v:Boolean){
         if(Types.toBoolean(v)){
             this.setter(function(key,value:String,target){
+                if( value == null ){
+                    return value;
+                }
                 return value.trim();
             })
         }
@@ -72,7 +81,7 @@ export class FiledString extends Filed{
         return <boolean>(value instanceof String || typeof value === 'string') && value.length;
     }
     public cast(key,value,model){
-        if(Types.isString(value)){
+        if(Types.isString(value) || value == null ){
             return value;
         }
         if (value && value.toString && value.toString !== Object.prototype.toString) {
