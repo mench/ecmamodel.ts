@@ -23,8 +23,8 @@ export declare class Model extends Emitter {
     parse(res: any): void;
     save(options?: {
         validate: boolean;
-    }, httpOpt?: HttpOptions): Promise<any>;
-    fetch(options?: HttpOptions): Promise<any>;
+    }, httpOpt?: HttpOptions): Promise<this>;
+    fetch(options?: HttpOptions): Promise<this>;
     private onDestroy();
     destroy(options?: HttpOptions): this | Promise<this>;
 }

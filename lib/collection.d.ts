@@ -34,7 +34,7 @@ export declare class Collection<T extends Model> extends Emitter {
     sort(cb: any): Array<T>;
     cleanup(cb: any): Array<T>;
     reset(data?: Array<any>): this;
-    fetch(options?: HttpOptions): Promise<any>;
+    fetch(options?: HttpOptions): Promise<false | this>;
     parse(res: any): void;
     toObject(): any;
     toArray(): Array<T>;
